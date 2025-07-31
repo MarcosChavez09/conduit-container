@@ -43,7 +43,7 @@ After cloning the repository, navigate to:
 cd conduit-container
 ```
 
-Run the [start.sh](start.sh) script to start the DB and Web containers locally:
+Run the [start.sh](start.sh) script to start the backend, frontend containers and DB volume locally:
 
 ```
 bash start.sh
@@ -54,7 +54,7 @@ or
 ./start.sh
 ```
 
-The `start.sh` script will create the `.env` file from `simple_env_config.env`, load the env vars, create the DB volume, create the docker network, build the web image, start the DB and the web containers.
+The `start.sh` script will create the `.env` file from `simple_env_config.env`, load the env vars, create the DB volume, create the docker network, build the frontend and backend image.
 
 ## Usage.
 
@@ -129,11 +129,17 @@ cd conduit-container
 
 3. Install Docker on your V-Server if you haven't done so yet. 
 
-4. Start the `start.sh` script.
+4. Add your `<ip_server_address>`to the `ALLOWED_HOSTS` variable to the `simple_env_config.env` file.
+
+5. Start the `start.sh` script.
 ```bash
 ./start.sh start
 ```
 
-5. Visit the link for the frontend at `http://<ip_server_address>:8282`
+6. Visit the link for the frontend at `http://<ip_server_address>:8282`
 
-6. Visit the link for the backend Django admin at `http://<ip_server_address>:8021/admin`
+7. Visit the link for the backend Django admin at `http://<ip_server_address>:8021/admin`
+
+## Project Checklist
+
+- 📄 [Checklist (PDF)](documentation)
