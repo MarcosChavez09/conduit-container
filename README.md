@@ -113,6 +113,16 @@ docker-compose logs backend
 docker-compose logs frontend
 ```
 
+To save the logs for the backend or for frontend, use:
+
+```bash
+docker-compose logs backend > backend-logs.txt
+```
+
+```bash
+docker-compose logs frontend > frontend-logs.txt
+```
+
 ### Deploy the app to a V-Server.
 
 1. Login to your V-Server
@@ -142,4 +152,4 @@ cd conduit-container
 
 ## Project Checklist
 
-- 📄 [Checklist (PDF)](documentation)
+- 📄 [Checklist (PDF)](documentation/checklist.pdf)
