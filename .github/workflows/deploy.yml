@@ -1,0 +1,49 @@
+name: Deploy to V-Server
+
+on:
+  push:
+    branches: [ main, feat-conduit-containerization ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to V-Server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.V_SERVER_HOST }}
+        username: ${{ secrets.V_SERVER_USERNAME }}
+        key: ${{ secrets.V_SERVER_SSH_KEY }}
+        port: 22
+        script: |
+          # Navigate to project directory
+          cd ~/projects/conduit-container
+          
+          # Pull latest changes
+          git pull origin feat-conduit-containerization
+
+           # Create .env file with secrets
+          cat > conduit-backend/conduit/.env << EOF
+          ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
+          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          EOF
+          
+          # Stop existing containers
+          docker-compose down
+          
+          # Rebuild and start containers
+          docker-compose build
+          docker-compose up -d
+          
+          # Show status
+          docker-compose ps
+          
+          echo "Deployment completed successfully!" 
