@@ -56,7 +56,18 @@ The `start.sh` script will create the `.env` file from `simple_env_config.env`, 
 
 ### Configure the environment variables.
 
-To configure your **environments variables**, you just have to update the `docker-compose.yml`. This example already has some test-ready variables to use.
+To configure your **environments variables**, you just have to update the variables in the `docker-compose.yml`. This example already has some test-ready variables to use, but you can modify them to your needs.
+
+```yml
+environment:
+      DJANGO_SETTINGS_MODULE: "<project_name.settings_file>"
+      PYTHONUNBUFFERED: 1
+      DJANGO_SUPERUSER_USERNAME: "<super_user_email>"
+      DJANGO_SUPERUSER_EMAIL: "<super_user_email>"
+      DJANGO_SUPERUSER_PASSWORD: "<super_user_pass>"
+      ALLOWED_HOSTS: "<your_ip_addresses>"
+      DEBUG: "False"
+```
 
 ### Create docker container.
 

@@ -135,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/app/staticfiles'
 
-# Serve static files in production (for development/testing)
+# Serve static files in production using whitenoise
 if not DEBUG:
     STATICFILES_DIRS = []
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

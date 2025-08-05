@@ -12,12 +12,11 @@ services:
       - backend_db:/app/conduit
     environment:
       # Django settings
-      DJANGO_SETTINGS_MODULE: conduit.settings
-      PYTHONUNBUFFERED: 1
+      DJANGO_SETTINGS_MODULE: "conduit.settings"
       DJANGO_SUPERUSER_USERNAME: "admin"
       DJANGO_SUPERUSER_EMAIL: "admin@admin.com"
       DJANGO_SUPERUSER_PASSWORD: "admin123"
-      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0,conduit-backend"
+      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
       DEBUG: "False"
 
   frontend:
