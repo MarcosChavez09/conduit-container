@@ -1,0 +1,51 @@
+# This workflow is used to deploy the app to a V-Server.
+# It is triggered by a push to the main branch or a pull request to the main branch.
+# It is also triggered by a push to the working branch.
+# It is also triggered by a pull request to the working branch.
+# It is also triggered by a push to the main branch.
+# It is also triggered by a pull request to the main branch.
+# It is also triggered by a push to the working branch.
+# It is also triggered by a pull request to the working branch.
+name: Deploy to V-Server
+
+on:
+  push:
+    branches: [ main,  ${{ vars.WORKING_BRANCH }}]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to V-Server
+      uses: appleboy/ssh-action@v1.0.3
+      env:
+        DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+        DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+        DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+        ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+      with:
+        host: ${{ secrets.V_SERVER_HOST }}
+        username: ${{ secrets.V_SERVER_USERNAME }}
+        key: ${{ secrets.V_SERVER_SSH_KEY }}
+        port: 22
+        script: |
+          # Navigate to project directory
+          cd ~/projects/conduit-container
+          
+          # Pull latest changes
+          git pull origin ${{ github.ref_name }}
+
+          # Pass environment variables to docker-compose and start the script
+          DJANGO_SUPERUSER_USERNAME=$DJANGO_SUPERUSER_USERNAME \
+          DJANGO_SUPERUSER_EMAIL=$DJANGO_SUPERUSER_EMAIL \
+          DJANGO_SUPERUSER_PASSWORD=$DJANGO_SUPERUSER_PASSWORD \
+          ALLOWED_HOSTS=$ALLOWED_HOSTS \
+          ./start.sh
+
+          echo "Deployment completed successfully!" 
