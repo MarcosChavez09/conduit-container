@@ -122,9 +122,9 @@ docker-compose logs frontend > frontend-logs.txt
 - `V_SERVER_HOST`: Your V-Server IP address
 - `V_SERVER_USERNAME`: SSH username for your V-Server
 - `V_SERVER_SSH_KEY`: SSH private key for authentication
+- `V_SERVER_SSH_PASSPHRASE`: Passphrase in case you protected your SSH key with it.
 
-**Optional Variables:**
-- `WORKING_BRANCH`: Your deployment branch name (e.g., "conduit-cicd-pipeline")
+> **_NOTE:_** If you don't have your `SSH Key` passphrase protected, remove the **line 63** from the `.github/workflows/deplpy.yml` file.
 
 Visit http://<server_address_ip>:8021/admin for the backend. You can log in as admin with the provided values provided for the secrets previously added.
 

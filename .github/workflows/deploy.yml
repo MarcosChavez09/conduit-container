@@ -33,6 +33,7 @@ jobs:
         host: ${{ secrets.V_SERVER_HOST }}
         username: ${{ secrets.V_SERVER_USERNAME }}
         key: ${{ secrets.V_SERVER_SSH_KEY }}
+        passphrase: ${{ secrets.V_SERVER_SSH_PASSPHRASE }}
         port: 22
         script: |
           # Navigate to project directory
