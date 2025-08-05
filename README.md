@@ -12,18 +12,14 @@ A repository with a step-by-step guide on how to dockerize a Django backend and 
     - [Configure the environment variables](#configure-the-environment-variables)
     - [Create a docker container](#create-a-docker-container)
     - [Starting and stopping the containers](#starting-and-stopping-the-containers)
-    - [Deploy the app to a V-Server](#deploy-the-app-to-a-v-server)
     - [Manual usage](#manual-usage)
 
 4. [Project Checklist](#project-checklist)
 
 ## Prerequisites
 
-- A user with `sudo` rights to a V-Server
-- Docker and Docker Compose installed in your V-Server
-- The pip package manager in your V-Server
-- GitHub account to connect via `SSH keys`
-- Connection from your V-Server to GitHub with `SSH Keys
+- Docker and Docker Compose installed
+- Git installed
 
 ## Quick start.
 
@@ -60,7 +56,7 @@ The `start.sh` script will create the `.env` file from `simple_env_config.env`, 
 
 ### Configure the environment variables.
 
-To configure your **environments variables**, you just have to run the `start.sh` scritp. The **scritp** will detect if the `.env` file exists, if not, it will create the file for you from the template.
+To configure your **environments variables**, you just have to update the `docker-compose.yml`. This example already has some test-ready variables to use.
 
 ### Create docker container.
 
@@ -74,7 +70,6 @@ or
 ```bash
 ./start.sh
 ```
-The script will run the `docker-compose.yml` and create the frontend, backend containers and the database volume for persistance.
 
 Visit http://localhost:8021/admin for the backed. You can log in as admin with the provided values in `conduit-backedn/conduit/.env` for the `django superuser`.
 
@@ -83,7 +78,6 @@ Visit http://localhost:8282 for the frontend app.
 ### Starting and stopping the containers.
 
 To stop the containers: 
-
 ```bash
 docker-compose stop
 ```
@@ -98,8 +92,12 @@ To remove the containers:
 docker-compose down
 ```
 
-To rebuild both services (containers):
+To start existing containers (use this when you make changes to the code):
+```bash
+docker-compose up --build -d
+```
 
+To just start existing containers:
 ```bash
 docker-compose up -d
 ```
@@ -111,7 +109,6 @@ docker-compose logs backend
 
 ```bash
 docker-compose logs frontend
-```
 
 To save the logs for the backend or for frontend, use:
 
@@ -122,33 +119,6 @@ docker-compose logs backend > backend-logs.txt
 ```bash
 docker-compose logs frontend > frontend-logs.txt
 ```
-
-### Deploy the app to a V-Server.
-
-1. Login to your V-Server
-```bash
-ssh -i ~/.ssh/<name_of_your_key> <your_user_name>@<ip_server_address>
-```
-2. Create a new folder in your `home` directory and clone this repository there
-```bash
-mkdir -p ~/projects
-cd ~/projects
-git clone git@github.com:MarcosChavez09/conduit-container.git
-cd conduit-container
-```
-
-3. Install Docker on your V-Server if you haven't done so yet. 
-
-4. Add your `<ip_server_address>`to the `ALLOWED_HOSTS` variable to the `simple_env_config.env` file.
-
-5. Start the `start.sh` script.
-```bash
-./start.sh start
-```
-
-6. Visit the link for the frontend at `http://<ip_server_address>:8282`
-
-7. Visit the link for the backend Django admin at `http://<ip_server_address>:8021/admin`
 
 ## Project Checklist
 

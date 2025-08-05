@@ -40,13 +40,8 @@ RUN mkdir -p /app/media \
 # Copy project files
 COPY . /app
 
-RUN ls -la /app
-
 # Set proper permissions
 RUN chown -R appuser:appuser /app
-
-# Copy and rename env file if present
-COPY conduit/simple_env_config.env /app/conduit/.env
 
 # Copy the entrypoint.sh and set permissions
 COPY entrypoint.sh /app/entrypoint.sh

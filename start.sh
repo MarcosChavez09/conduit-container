@@ -22,19 +22,8 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Copy environment config file if .env doesn't exist
-if [ ! -f "conduit-backend/conduit/.env" ]; then
-    print_warning ".env file not found, creating .env file from template..."
-    cp conduit-backend/conduit/simple_env_config.env conduit-backend/conduit/.env
-fi
-
-# Load environment variables from .env file
-if [ -f "conduit-backend/conduit/.env" ]; then
-    export $(cat conduit-backend/conduit/.env | grep -v '^#' | xargs)
-else
-    print_error "Error: conduit-backend/conduit/.env file not found"
-    exit 1
-fi
+# Environment variables are now configured in docker-compose.yml
+print_status "Starting Conduit containers with environment variables from docker-compose.yml..."
 
 # Function to start the conduit container
 print_status "Conduit container..."

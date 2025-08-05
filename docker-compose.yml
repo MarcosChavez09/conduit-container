@@ -10,16 +10,15 @@ services:
       - backend_static:/app/staticfiles
       - backend_media:/app/media
       - backend_db:/app/conduit
-    restart: always
     environment:
-      # Example uncritical env vars (add more as needed)
+      # Django settings
       DJANGO_SETTINGS_MODULE: conduit.settings
       PYTHONUNBUFFERED: 1
-      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
-      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
-      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
-    depends_on:
-      - frontend
+      DJANGO_SUPERUSER_USERNAME: "admin"
+      DJANGO_SUPERUSER_EMAIL: "admin@admin.com"
+      DJANGO_SUPERUSER_PASSWORD: "admin123"
+      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0,conduit-backend"
+      DEBUG: "False"
 
   frontend:
     build:
@@ -27,10 +26,11 @@ services:
     container_name: conduit-frontend
     ports:
       - "8282:8282"
-    restart: always
     environment:
       # Example uncritical env vars (add more as needed)
       NODE_ENV: production
+    depends_on:
+      - backend
 
 volumes:
   backend_static:
