@@ -2,17 +2,14 @@
 
 ## Description.
 
-A repository with a step-by-step guide on how to dockerize a Django backend and Angular frontend multi-container app.
+A repository that shows how to deploy a multi-container app to a V-Server.
 
 ## Table of Contents.
 
 1. [Prerequisites](#prerequisites)
 2. [Quick start](#quick-start)
 3. [Usage](#usage)
-    - [Configure the environment variables](#configure-the-environment-variables)
-    - [Create docker container](#create-docker-container)
-    - [Starting and stopping the containers](#starting-and-stopping-the-containers)
-
+    - [Deployment configuration](#deployment-configuration)
 4. [Project Checklist](#project-checklist)
 
 ## Prerequisites
@@ -38,6 +35,18 @@ After cloning the repository, navigate to:
 cd conduit-container
 ```
 
+To configure the **environments variables**, you just have to update the variables in the `docker-compose.yml`.
+
+```yml
+environment:
+      DJANGO_SETTINGS_MODULE: "<project_name.settings_file>"
+      DJANGO_SUPERUSER_USERNAME: "<super_user_name>"
+      DJANGO_SUPERUSER_EMAIL: "<super_user_email>"
+      DJANGO_SUPERUSER_PASSWORD: "<super_user_pass>"
+      ALLOWED_HOSTS: "<your_localhost>"
+      DEBUG: "False"
+```
+
 Run the [start.sh](start.sh) script to start the backend, frontend containers and DB volume locally:
 
 ```
@@ -49,28 +58,16 @@ or
 ./start.sh
 ```
 
-The `start.sh` script will load env vars, create the DB volume, create the docker network, build the frontend and backend image.
-
-Visit http://localhost:8021/admin for the backed. You can log in as admin with the provided values in `conduit-backedn/conduit/.env` for the `django superuser`.
-
-Visit http://localhost:8282 for the frontend app.
+The `start.sh` script creates the DB volume, creates the docker network, and builds the frontend and backend images.
 
 ## Usage.
 
-### Configure the environment variables.
+### Deployment configuration.
 
-To configure your **environments variables**, you just have to update the variables in the `docker-compose.yml`. This example already has some test-ready variables to use, but you can modify them to your needs.
+For the deployment you will need to create the following **secrets** in your **GitHub repository**:
 
-```yml
-environment:
-      DJANGO_SETTINGS_MODULE: "<project_name.settings_file>"
-      PYTHONUNBUFFERED: 1
-      DJANGO_SUPERUSER_USERNAME: "<super_user_email>"
-      DJANGO_SUPERUSER_EMAIL: "<super_user_email>"
-      DJANGO_SUPERUSER_PASSWORD: "<super_user_pass>"
-      ALLOWED_HOSTS: "<your_ip_addresses>"
-      DEBUG: "False"
-```
+1. Go to your repository → Settings → Secrets and variables → Actions
+2. Click "New repository secret" and add:
 
 ### Starting and stopping the containers.
 
@@ -117,6 +114,22 @@ docker-compose logs backend > backend-logs.txt
 docker-compose logs frontend > frontend-logs.txt
 ```
 
+**Required Secrets:**
+- `DJANGO_SUPERUSER_USERNAME`: Your Django admin username
+- `DJANGO_SUPERUSER_EMAIL`: Your Django admin email
+- `DJANGO_SUPERUSER_PASSWORD`: Your Django admin password
+- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
+- `V_SERVER_HOST`: Your V-Server IP address
+- `V_SERVER_USERNAME`: SSH username for your V-Server
+- `V_SERVER_SSH_KEY`: SSH private key for authentication
+
+**Optional Variables:**
+- `WORKING_BRANCH`: Your deployment branch name (e.g., "conduit-cicd-pipeline")
+
+Visit http://<server_address_ip>:8021/admin for the backend. You can log in as admin with the provided values provided for the secrets previously added.
+
+Visit http://<server_address_ip>:8282 for the frontend app.
+
 ## Project Checklist
 
-- 📄 [Checklist (PDF)](documentation/checklist.pdf)
+- 📄 [Checklist (PDF)](documentation/checklist_deploy.pdf)

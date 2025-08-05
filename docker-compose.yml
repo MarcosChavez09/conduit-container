@@ -13,10 +13,10 @@ services:
     environment:
       # Django settings
       DJANGO_SETTINGS_MODULE: "conduit.settings"
-      DJANGO_SUPERUSER_USERNAME: "admin"
-      DJANGO_SUPERUSER_EMAIL: "admin@admin.com"
-      DJANGO_SUPERUSER_PASSWORD: "admin123"
-      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
       DEBUG: "False"
 
   frontend:
