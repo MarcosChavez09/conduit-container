@@ -36,8 +36,18 @@ jobs:
         passphrase: ${{ secrets.V_SERVER_SSH_PASSPHRASE }}
         port: 22
         script: |
+          REPO_NAME=conduit-container
+          # Navigate to project
+          cd ~/projects
+
+          # Check if repository exists
+          if [ ! -d "$REPO_NAME" ]; then
+            echo "Cloning repository for the first time..."
+            git clone ${{ vars.REPO_URL }}
+          fi
+
           # Navigate to project directory
-          cd ~/projects/conduit-container
+          cd $REPO_NAME
           
           # Pull latest changes
           git pull origin ${{ github.ref_name }}
