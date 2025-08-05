@@ -10,7 +10,7 @@ name: Deploy to V-Server
 
 on:
   push:
-    branches: [ main,  ${{ vars.WORKING_BRANCH }}]
+    branches: [ main, conduit-cicd-pipeline]
   pull_request:
     branches: [ main ]
 
