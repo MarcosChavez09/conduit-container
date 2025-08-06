@@ -49,7 +49,7 @@ or
 ./start.sh
 ```
 
-The `start.sh` script will create the `.env` file from `simple_env_config.env`, load the env vars, create the DB volume, create the docker network, build the frontend and backend image.
+The `start.sh` script will load env vars, create the DB volume, create the docker network, build the frontend and backend image.
 
 ## Usage.
 
