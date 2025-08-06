@@ -1,0 +1,37 @@
+# docker-compose.yml
+services:
+  backend:
+    build:
+      context: ./conduit-backend
+    container_name: conduit-backend
+    ports:
+      - "8021:8021"
+    volumes:
+      - backend_static:/app/staticfiles
+      - backend_media:/app/media
+      - backend_db:/app/conduit
+    environment:
+      # Django settings
+      DJANGO_SETTINGS_MODULE: "conduit.settings"
+      DJANGO_SUPERUSER_USERNAME: "admin"
+      DJANGO_SUPERUSER_EMAIL: "admin@admin.com"
+      DJANGO_SUPERUSER_PASSWORD: "admin123"
+      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+      DEBUG: "False"
+
+  frontend:
+    build:
+      context: ./conduit-frontend
+    container_name: conduit-frontend
+    ports:
+      - "8282:8282"
+    environment:
+      # Example uncritical env vars (add more as needed)
+      NODE_ENV: production
+    depends_on:
+      - backend
+
+volumes:
+  backend_static:
+  backend_media:
+  backend_db:
