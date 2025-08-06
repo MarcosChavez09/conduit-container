@@ -2,7 +2,7 @@
 
 ## Description.
 
-A repository with a step-by-step guide on how to dockerize a Django backend and Angular frontend multi-container app and deploy it to a V-Server.
+A repository with a step-by-step guide on how to dockerize a Django backend and Angular frontend multi-container app.
 
 ## Table of Contents.
 
