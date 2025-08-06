@@ -119,7 +119,7 @@ docker-compose logs backend
 
 ```bash
 docker-compose logs frontend
-
+```
 To save the logs for the backend or for frontend, use:
 
 ```bash
