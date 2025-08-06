@@ -10,9 +10,8 @@ A repository with a step-by-step guide on how to dockerize a Django backend and 
 2. [Quick start](#quick-start)
 3. [Usage](#usage)
     - [Configure the environment variables](#configure-the-environment-variables)
-    - [Create a docker container](#create-a-docker-container)
+    - [Create docker container](#create-docker-container)
     - [Starting and stopping the containers](#starting-and-stopping-the-containers)
-    - [Manual usage](#manual-usage)
 
 4. [Project Checklist](#project-checklist)
 
