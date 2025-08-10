@@ -38,7 +38,7 @@ jobs:
         script: |
           REPO_NAME=conduit-container
           # Navigate to project
-          cd ~/projects
+          cd ~/Projects
 
           # Check if repository exists
           if [ ! -d "$REPO_NAME" ]; then
