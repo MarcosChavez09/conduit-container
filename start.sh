@@ -22,9 +22,6 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Environment variables are now configured in docker-compose.yml
-print_status "Starting Conduit containers with environment variables from docker-compose.yml..."
-
 # Function to start the conduit container
 print_status "Conduit container..."
 docker compose up -d
