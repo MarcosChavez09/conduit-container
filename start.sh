@@ -22,6 +22,13 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Export environment variables for docker-compose
+print_status "Exporting environment variables for docker-compose..."
+export DJANGO_SUPERUSER_USERNAME
+export DJANGO_SUPERUSER_EMAIL
+export DJANGO_SUPERUSER_PASSWORD
+export ALLOWED_HOSTS
+
 # Function to start the conduit container
 print_status "Conduit container..."
 docker compose up -d
