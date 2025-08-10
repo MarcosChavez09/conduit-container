@@ -24,11 +24,6 @@ jobs:
       
     - name: Deploy to V-Server
       uses: appleboy/ssh-action@v1.0.3
-      env:
-        DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-        DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-        DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-        ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
       with:
         host: ${{ secrets.V_SERVER_HOST }}
         username: ${{ secrets.V_SERVER_USERNAME }}
@@ -52,11 +47,13 @@ jobs:
           # Pull latest changes
           git pull origin ${{ github.ref_name }}
 
-          # Pass environment variables to docker-compose and start the script
-          DJANGO_SUPERUSER_USERNAME=$DJANGO_SUPERUSER_USERNAME \
-          DJANGO_SUPERUSER_EMAIL=$DJANGO_SUPERUSER_EMAIL \
-          DJANGO_SUPERUSER_PASSWORD=$DJANGO_SUPERUSER_PASSWORD \
-          ALLOWED_HOSTS=$ALLOWED_HOSTS \
+          # Set environment variables directly in the script
+          export DJANGO_SUPERUSER_USERNAME="${{ secrets.DJANGO_SUPERUSER_USERNAME }}"
+          export DJANGO_SUPERUSER_EMAIL="${{ secrets.DJANGO_SUPERUSER_EMAIL }}"
+          export DJANGO_SUPERUSER_PASSWORD="${{ secrets.DJANGO_SUPERUSER_PASSWORD }}"
+          export ALLOWED_HOSTS="${{ secrets.ALLOWED_HOSTS }}"
+          
+          # Start the containers
           ./start.sh
 
           echo "Deployment completed successfully!" 
