@@ -51,6 +51,10 @@ or
 
 The `start.sh` script will load env vars, create the DB volume, create the docker network, build the frontend and backend image.
 
+Visit http://localhost:8021/admin for the backed. You can log in as admin with the provided values in `conduit-backedn/conduit/.env` for the `django superuser`.
+
+Visit http://localhost:8282 for the frontend app.
+
 ## Usage.
 
 ### Configure the environment variables.
@@ -67,23 +71,6 @@ environment:
       ALLOWED_HOSTS: "<your_ip_addresses>"
       DEBUG: "False"
 ```
-
-### Create docker container.
-
-To create the docker containers use the `start.sh` script, type the following in your terminal:
-
-```bash
-bash start.sh
-```
-
-or
-```bash
-./start.sh
-```
-
-Visit http://localhost:8021/admin for the backed. You can log in as admin with the provided values in `conduit-backedn/conduit/.env` for the `django superuser`.
-
-Visit http://localhost:8282 for the frontend app.
 
 ### Starting and stopping the containers.
 
