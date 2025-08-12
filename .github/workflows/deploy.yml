@@ -64,7 +64,7 @@ jobs:
           
           # Pull latest changes
           echo "Pulling latest changes..."
-          git pull --rebase origin ${{ github.ref_name }}
+          git pull --rebase origin main
 
           # Set environment variables directly in the script
           export DJANGO_SUPERUSER_USERNAME="${{ secrets.DJANGO_SUPERUSER_USERNAME }}"
