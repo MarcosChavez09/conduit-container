@@ -1,0 +1,81 @@
+# This workflow is used to deploy the app to a V-Server.
+# It is triggered by a push to the main branch or a pull request to the main branch.
+# It is also triggered by a push to the working branch.
+# It is also triggered by a pull request to the working branch.
+# It is also triggered by a push to the main branch.
+# It is also triggered by a pull request to the main branch.
+# It is also triggered by a push to the working branch.
+# It is also triggered by a pull request to the working branch.
+name: Deploy to V-Server
+
+on:
+  push:
+    branches: [ main, conduit-cicd-pipeline]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to V-Server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.V_SERVER_HOST }}
+        username: ${{ secrets.V_SERVER_USERNAME }}
+        key: ${{ secrets.V_SERVER_SSH_KEY }}
+        passphrase: ${{ secrets.V_SERVER_SSH_PASSPHRASE }}
+        port: 22
+        script: |
+          # Exit on error
+          set -e
+ 
+          # Set the repository name
+          REPO_NAME=conduit-container
+
+          # Check if docker and docker-compose are installed
+          if ! command -v docker &> /dev/null; then
+            echo "Error: Docker is not installed"
+            exit 1
+          fi
+
+          # Check if docker-compose is installed
+          if ! docker compose version &> /dev/null; then
+            echo "Error: Docker Compose is not available"
+            exit 1
+          fi
+
+          # Navigate to project directory
+          cd ~/Projects
+
+          # Check if repository exists, if not clone it
+          if [ ! -d "$REPO_NAME" ]; then
+            echo "Cloning repository for the first time..."
+            git clone ${{ vars.REPO_URL }}
+          fi
+
+          # Navigate to project directory
+          echo "Navigating to project directory..."
+          cd $REPO_NAME
+          
+          # Pull latest changes
+          echo "Pulling latest changes..."
+          git pull --rebase origin main
+
+          # Set environment variables directly in the script
+          export DJANGO_SUPERUSER_USERNAME="${{ secrets.DJANGO_SUPERUSER_USERNAME }}"
+          export DJANGO_SUPERUSER_EMAIL="${{ secrets.DJANGO_SUPERUSER_EMAIL }}"
+          export DJANGO_SUPERUSER_PASSWORD="${{ secrets.DJANGO_SUPERUSER_PASSWORD }}"
+          export ALLOWED_HOSTS="${{ secrets.ALLOWED_HOSTS }}"
+          export SECRET_KEY="${{ secrets.SECRET_KEY }}"
+          export DEBUG="False"
+          
+          # Start the containers
+          echo "Starting the containers..."
+          ./start.sh
+
+          echo "Deployment completed successfully!" 

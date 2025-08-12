@@ -22,8 +22,13 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Environment variables are now configured in docker-compose.yml
-print_status "Starting Conduit containers with environment variables from docker-compose.yml..."
+# Export environment variables for docker-compose
+print_status "Exporting environment variables for docker-compose..."
+export DJANGO_SUPERUSER_USERNAME
+export DJANGO_SUPERUSER_EMAIL
+export DJANGO_SUPERUSER_PASSWORD
+export ALLOWED_HOSTS
+export SECRET_KEY
 
 # Function to start the conduit container
 print_status "Conduit container..."
