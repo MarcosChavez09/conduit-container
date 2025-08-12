@@ -31,11 +31,28 @@ jobs:
         passphrase: ${{ secrets.V_SERVER_SSH_PASSPHRASE }}
         port: 22
         script: |
+          # Exit on error
+          set -e
+ 
+          # Set the repository name
           REPO_NAME=conduit-container
-          # Navigate to project
+
+          # Check if docker and docker-compose are installed
+          if ! command -v docker &> /dev/null; then
+            echo "Error: Docker is not installed"
+            exit 1
+          fi
+
+          # Check if docker-compose is installed
+          if ! command -v docker-compose &> /dev/null; then
+            echo "Error: Docker Compose is not installed"
+            exit 1
+          fi
+
+          # Navigate to project directory
           cd ~/Projects
 
-          # Check if repository exists
+          # Check if repository exists, if not clone it
           if [ ! -d "$REPO_NAME" ]; then
             echo "Cloning repository for the first time..."
             git clone ${{ vars.REPO_URL }}
