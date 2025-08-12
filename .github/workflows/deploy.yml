@@ -42,9 +42,11 @@ jobs:
           fi
 
           # Navigate to project directory
+          echo "Navigating to project directory..."
           cd $REPO_NAME
           
           # Pull latest changes
+          echo "Pulling latest changes..."
           git pull origin ${{ github.ref_name }}
 
           # Set environment variables directly in the script
@@ -52,8 +54,11 @@ jobs:
           export DJANGO_SUPERUSER_EMAIL="${{ secrets.DJANGO_SUPERUSER_EMAIL }}"
           export DJANGO_SUPERUSER_PASSWORD="${{ secrets.DJANGO_SUPERUSER_PASSWORD }}"
           export ALLOWED_HOSTS="${{ secrets.ALLOWED_HOSTS }}"
+          export SECRET_KEY="${{ secrets.SECRET_KEY }}"
+          export DEBUG="False"
           
           # Start the containers
+          echo "Starting the containers..."
           ./start.sh
 
           echo "Deployment completed successfully!" 

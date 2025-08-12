@@ -10,6 +10,7 @@ A repository that shows how to deploy a multi-container app to a V-Server.
 2. [Quick start](#quick-start)
 3. [Usage](#usage)
     - [Deployment configuration](#deployment-configuration)
+    - [Starting and stopping the containers](#starting-and-stopping-the-containers)
 4. [Project Checklist](#project-checklist)
 
 ## Prerequisites
@@ -44,6 +45,7 @@ environment:
       DJANGO_SUPERUSER_EMAIL: "<super_user_email>"
       DJANGO_SUPERUSER_PASSWORD: "<super_user_pass>"
       ALLOWED_HOSTS: "<your_localhost>"
+      SECRET_KEY = "<your_django_secret_key>"
       DEBUG: "False"
 ```
 
@@ -58,7 +60,11 @@ or
 ./start.sh
 ```
 
-The `start.sh` script creates the DB volume, creates the docker network, and builds the frontend and backend images.
+The start.sh script will export env vars, create the DB volume, create the docker network, build the frontend and backend image.
+
+Visit http://<localhost_or_server_address_ip>:8021/admin for the backend. You can log in as admin with the provided values provided for the secrets previously added.
+
+Visit http://<localhost_or_server_address_ip>:8282 for the frontend app.
 
 ## Usage.
 
@@ -68,6 +74,20 @@ For the deployment you will need to create the following **secrets** in your **G
 
 1. Go to your repository → Settings → Secrets and variables → Actions
 2. Click "New repository secret" and add:
+    **Required Secrets:**
+- `DJANGO_SUPERUSER_USERNAME`: Your Django admin username
+- `DJANGO_SUPERUSER_EMAIL`: Your Django admin email
+- `DJANGO_SUPERUSER_PASSWORD`: Your Django admin password
+- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
+- `SECRET_KEY`: Django secret key
+- `V_SERVER_HOST`: Your V-Server IP address
+- `V_SERVER_USERNAME`: SSH username for your V-Server
+- `V_SERVER_SSH_KEY`: SSH private key for authentication
+- `V_SERVER_SSH_PASSPHRASE`: Passphrase in case you protected your SSH key with it.
+
+> **_NOTE:_** If you don't have your `SSH Key` passphrase protected, remove the **line 63** from the `.github/workflows/deplpy.yml` file.
+
+Push the changes to your remote branch and the workflow will start. Visite the frontend URL mentioned in the **Quick start** part of this README.
 
 ### Starting and stopping the containers.
 
@@ -113,23 +133,6 @@ docker-compose logs backend > backend-logs.txt
 ```bash
 docker-compose logs frontend > frontend-logs.txt
 ```
-
-**Required Secrets:**
-- `DJANGO_SUPERUSER_USERNAME`: Your Django admin username
-- `DJANGO_SUPERUSER_EMAIL`: Your Django admin email
-- `DJANGO_SUPERUSER_PASSWORD`: Your Django admin password
-- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
-- `V_SERVER_HOST`: Your V-Server IP address
-- `V_SERVER_USERNAME`: SSH username for your V-Server
-- `V_SERVER_SSH_KEY`: SSH private key for authentication
-- `V_SERVER_SSH_PASSPHRASE`: Passphrase in case you protected your SSH key with it.
-
-> **_NOTE:_** If you don't have your `SSH Key` passphrase protected, remove the **line 63** from the `.github/workflows/deplpy.yml` file.
-
-Visit http://<server_address_ip>:8021/admin for the backend. You can log in as admin with the provided values provided for the secrets previously added.
-
-Visit http://<server_address_ip>:8282 for the frontend app.
-
 ## Project Checklist
 
 - 📄 [Checklist (PDF)](documentation/checklist_deploy.pdf)

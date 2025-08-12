@@ -28,6 +28,7 @@ export DJANGO_SUPERUSER_USERNAME
 export DJANGO_SUPERUSER_EMAIL
 export DJANGO_SUPERUSER_PASSWORD
 export ALLOWED_HOSTS
+export SECRET_KEY
 
 # Function to start the conduit container
 print_status "Conduit container..."
